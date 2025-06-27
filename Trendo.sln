@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trendo.Api", "Trendo.Api\Tr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trendo.Application", "Trendo.Application\Trendo.Application.csproj", "{3DDD85C2-5091-4598-93C9-A350ADB06AF8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trendo.Infrastructure", "Trendo.Infrastructure\Trendo.Infrastructure.csproj", "{CBFA94AB-27B3-4472-A60C-F17A06FC8A52}"
+EndProject
 Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DB13B94E-9718-4CE7-84BA-F7630A4FBEAC}.|Any CPU.ActiveCfg = |Any CPU
@@ -16,6 +18,8 @@ Global
 		{F0CD7D6D-A456-4147-B408-574F957EBDEB}.|Any CPU.Build.0 = Debug|Any CPU
 		{3DDD85C2-5091-4598-93C9-A350ADB06AF8}.|Any CPU.ActiveCfg = Debug|Any CPU
 		{3DDD85C2-5091-4598-93C9-A350ADB06AF8}.|Any CPU.Build.0 = Debug|Any CPU
+		{CBFA94AB-27B3-4472-A60C-F17A06FC8A52}.|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBFA94AB-27B3-4472-A60C-F17A06FC8A52}.|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		|Any CPU = |Any CPU
