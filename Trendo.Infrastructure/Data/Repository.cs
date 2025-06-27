@@ -1,16 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using Trendo.Domain.Repository;
+using Trendo.Infrastructure.DbContext;
 
 namespace Trendo.Infrastructure.Repository;
 public class Repository<T> : IRepository<T> where T : class
 {
-    protected readonly Microsoft.EntityFrameworkCore.DbContext _dbContext;
+    protected readonly TrendoDbContext _dbContext;
 
-    public Repository(Microsoft.EntityFrameworkCore.DbContext dbContext)
+    public Repository(TrendoDbContext dbContext)
     {
         _dbContext = dbContext;
     }
-
     public async Task<T?> GetByIdAsync(Guid id)
     {
         return await _dbContext.Set<T>().FindAsync(id);
