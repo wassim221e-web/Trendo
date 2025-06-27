@@ -6,6 +6,8 @@ public interface IRepository<T> where T : class
     Task<IReadOnlyList<T>> ListAllAsync();
     Task AddAsync(T entity);
     void Update(T entity);
-    void Delete(T entity);  
+    void Delete(T entity);
+    IQueryable<T> Query(); 
+    IQueryable<T> TrackingQuery(bool tracking); 
 }
 

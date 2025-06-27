@@ -35,7 +35,17 @@ public class Repository<T> : IRepository<T> where T : class
     {
         _dbContext.Set<T>().Remove(entity);
     }
+    
+    public IQueryable<T> Query()
+        => _dbContext.Set<T>();
+
+   
+    public IQueryable<T> TrackingQuery(bool tracking)
+        => tracking
+            ? _dbContext.Set<T>().AsTracking()
+            : _dbContext.Set<T>().AsNoTracking();
 }
+
 
 
 
