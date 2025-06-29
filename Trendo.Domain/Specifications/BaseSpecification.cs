@@ -1,9 +1,11 @@
+using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using Trendo.Domain.Specifications;
 
 public abstract class BaseSpecification<T> : ISpecification<T>
 {
-    private int? _isPagingEnabled;
+    private bool _isPagingEnabled;
 
     protected BaseSpecification()
     {
@@ -22,16 +24,12 @@ public abstract class BaseSpecification<T> : ISpecification<T>
     public Expression<Func<T, object>>? OrderBy { get; private set; }
 
     public Expression<Func<T, object>>? OrderByDescending { get; private set; }
-    public int? TaKe { get; }
-    public abstract int? Tack { get; }
 
     public int? Take { get; private set; }
 
-    public int? Skip { get; private set; }
+    public int Skip { get; private set; }
 
-    int? ISpecification<T>.IsPagingEnabled => _isPagingEnabled;
-
-    public bool IsPagingEnabled { get; private set; }
+    public bool IsPagingEnabled => _isPagingEnabled;
 
   
     protected void AddInclude(Expression<Func<T, object>> includeExpression)
@@ -40,16 +38,19 @@ public abstract class BaseSpecification<T> : ISpecification<T>
     protected void AddOrderBy(Expression<Func<T, object>> orderByExpression)
         => OrderBy = orderByExpression;
 
+  
     protected void AddOrderByDescending(Expression<Func<T, object>> orderByDescExpression)
         => OrderByDescending = orderByDescExpression;
 
+    
     protected void ApplyPaging(int skip, int take)
     {
         Skip = skip;
         Take = take;
-        IsPagingEnabled = true;
+        _isPagingEnabled = true;
     }
 
+    
     protected void SetCriteria(Expression<Func<T, bool>> criteria)
         => Criteria = criteria;
 }

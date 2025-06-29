@@ -1,3 +1,5 @@
+using Trendo.Domain.Specifications;
+
 namespace Trendo.Domain.Repository;
 
 public interface IRepository<T> where T : class
@@ -9,5 +11,8 @@ public interface IRepository<T> where T : class
     void Delete(T entity);
     IQueryable<T> Query(); 
     IQueryable<T> TrackingQuery(bool tracking); 
+    Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec);
+    Task<T?> GetEntityWithSpecAsync(ISpecification<T> spec);
+    Task<int> CountAsync(ISpecification<T> spec); 
 }
 
