@@ -16,12 +16,17 @@ builder.Services.AddDbContext<TrendoDbContext>(options =>
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IFileService, FileService>();
 
-
 builder.Services.AddScoped<IFileService>(sp =>
 {
     var env = sp.GetRequiredService<IWebHostEnvironment>();
-    return new FileService(env.WebRootPath);
+    var config = sp.GetRequiredService<IConfiguration>();
+    
+    // توليد base URL (يفضل تخزينه بالappsettings أو استخدمه ثابت مؤقتاً)
+    var baseUrl = config["BaseUrl"] ?? "https://localhost:5001";
+    
+    return new FileService(env.WebRootPath, baseUrl);
 });
+
 
 
 var app = builder.Build();
