@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Trendo.Application.File.Interface;
 using Trendo.Domain.Repository;
 using Trendo.Infrastructure.DbContext;
 using Trendo.Infrastructure.Repository;
@@ -13,6 +14,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TrendoDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IFileService, FileService>();
+
+
+builder.Services.AddScoped<IFileService>(sp =>
+{
+    var env = sp.GetRequiredService<IWebHostEnvironment>();
+    return new FileService(env.WebRootPath);
+});
+
 
 var app = builder.Build();
 
