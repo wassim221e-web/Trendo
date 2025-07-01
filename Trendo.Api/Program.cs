@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Trendo.Application.File.Interface;
 using Trendo.Domain.Repository;
+using Trendo.Infrastructure;
 using Trendo.Infrastructure.DbContext;
 using Trendo.Infrastructure.Repository;
 
@@ -9,26 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
-builder.Services.AddDbContext<TrendoDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<IFileService, FileService>();
-
-builder.Services.AddScoped<IFileService>(sp =>
-{
-    var env = sp.GetRequiredService<IWebHostEnvironment>();
-    var config = sp.GetRequiredService<IConfiguration>();
-    
-    // توليد base URL (يفضل تخزينه بالappsettings أو استخدمه ثابت مؤقتاً)
-    var baseUrl = config["BaseUrl"] ?? "https://localhost:5001";
-    
-    return new FileService(env.WebRootPath, baseUrl);
-});
-
-
-
+builder.Services.AddInfrastructure(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

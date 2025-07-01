@@ -3,6 +3,6 @@ namespace Trendo.Application.File.Interface;
 
 public interface IFileService
 {
-    string SaveFile(IFormFile file, string folderName);
-    bool DeleteFile(string fileName, string folderName);
+    Task<string?> Upload(IFormFile file,string folderName);
+    bool DeleteFile(string path);
 }
