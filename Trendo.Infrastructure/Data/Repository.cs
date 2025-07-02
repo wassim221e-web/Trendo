@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using Trendo.Domain.BaseEntity;
 using Trendo.Domain.Repository;
 using Trendo.Domain.Specifications;
 using Trendo.Infrastructure.DbContext;
 
 namespace Trendo.Infrastructure.Repository;
 
-public class Repository<T> : IRepository<T> where T : class
+public class Repository<T> : IRepository<T> where T : BaseEntity
 {
     protected readonly TrendoDbContext _dbContext;
     protected readonly DbSet<T> _dbSet;
@@ -40,7 +41,7 @@ public class Repository<T> : IRepository<T> where T : class
     {
         if (entity == null)
             throw new ArgumentNullException(nameof(entity));
-
+        entity.DateUpdated = DateTime.UtcNow;
         _dbSet.Update(entity);
     }
 
@@ -48,7 +49,7 @@ public class Repository<T> : IRepository<T> where T : class
     {
         if (entity == null)
             throw new ArgumentNullException(nameof(entity));
-
+        entity.DateDeleted = DateTime.UtcNow;
         _dbSet.Remove(entity);
     }
 

@@ -11,16 +11,24 @@ public class FileService : IFileService
     {
         _env = env;
     }
+    
     public async Task<string?> Upload(IFormFile file, string folderName)
     {
         if (file.Length is 0)
             return null;
-        var path = Path.Combine(_env.WebRootPath, folderName,Guid.NewGuid().ToString(),Path.GetExtension(file.FileName));
+        
+        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+        var folderPath = Path.Combine(_env.WebRootPath, folderName);
+        Directory.CreateDirectory(folderPath); 
+        
+        var path = Path.Combine(folderPath, fileName);
+
         await using var fileStream = new FileStream(path, FileMode.Create);
         await file.CopyToAsync(fileStream);
         return path;
     }
 
+    
     public bool DeleteFile(string path)
     {
         if (File.Exists(path) == false)

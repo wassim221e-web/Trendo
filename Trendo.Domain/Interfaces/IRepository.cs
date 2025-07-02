@@ -2,7 +2,7 @@ using Trendo.Domain.Specifications;
 
 namespace Trendo.Domain.Repository;
 
-public interface IRepository<T> where T : class
+public interface IRepository<T> where T : BaseEntity.BaseEntity
 {
     Task<T?> GetByIdAsync(Guid id);
     Task<IReadOnlyList<T>> ListAllAsync();
