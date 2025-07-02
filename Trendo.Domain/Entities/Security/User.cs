@@ -1,12 +1,12 @@
+
 using Microsoft.AspNetCore.Identity;
 
-namespace Trendo.Domain.BaseEntity;
+namespace Trendo.Domain.Entities.Security;
 
-public abstract class BaseEntity: IdentityUser,IAuditable
+public class User:IdentityUser<Guid>,IAuditable
 {
-    public int Id { get; set; }
-
     public DateTime DateCreated { get; set; }
     public DateTime? DateUpdated { get; set; }
     public DateTime? DateDeleted { get; set; }
+    public string FirstName { get; set; }
 }
