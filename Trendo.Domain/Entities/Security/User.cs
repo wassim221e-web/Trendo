@@ -14,4 +14,5 @@ public class User:IdentityUser<Guid>,IAuditable
     public string JobPosition { get; set; }     
     public string Country { get; set; }  
     public string CountryCode { get; set; }
+    public string? ProfileImagePath { get; set; }
 }
