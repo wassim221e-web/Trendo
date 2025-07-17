@@ -16,4 +16,8 @@
       <ProjectReference Include="..\Trendo.Domain\Trendo.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Employee\Command\" />
+    </ItemGroup>
+
 </Project>
