@@ -1,7 +1,7 @@
 using Trendo.Domain.BaseEntity;
 using Trendo.Domain.Entities;
 using System.Collections.Generic;
-
+namespace Trendo.Domain.Entities;
 public class Product : IBaseEntity
 {
     public Product() {}

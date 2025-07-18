@@ -28,7 +28,7 @@ namespace Trendo.Application.Product.Queries.GetAll
                 public string Category { get; set; } = null!;
                 public int OrderCount { get; set; }
 
-                public static Expression<Func<global::Product, ProductRes>> Selector() => e => new ProductRes
+                public static Expression<Func<Domain.Entities.Product, ProductRes>> Selector() => e => new ProductRes
                 {
                     Id = e.Id,
                     Number = e.Number,

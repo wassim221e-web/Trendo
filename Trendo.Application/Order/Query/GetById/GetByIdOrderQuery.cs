@@ -15,7 +15,7 @@ public class GetByIdOrderQuery
         public Guid Id { get; set; }
         public Guid CustomerId { get; set; }
         public Guid ProductId { get; set; }
-        public Product Product { get; set; }
+        public Domain.Entities.Product Product { get; set; }
         public double Price { get; set; }
         public static Expression<Func<Domain.Entities.Order, Response>> Selector() => order => new Response
         {

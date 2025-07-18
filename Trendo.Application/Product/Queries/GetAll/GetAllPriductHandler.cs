@@ -9,9 +9,9 @@ namespace Trendo.Application.Product.Queries.GetAll;
 
 public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery.Request, GetAllProductsQuery.Response>
 {
-    private readonly IRepository<global::Product> _repository;
+    private readonly IRepository<Domain.Entities.Product> _repository;
 
-    public GetAllProductsHandler(IRepository<global::Product> repository)
+    public GetAllProductsHandler(IRepository<Domain.Entities.Product> repository)
     {
         _repository = repository;
     }

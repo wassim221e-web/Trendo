@@ -23,7 +23,7 @@ public class GetByIdProductQuery
         public Guid CategoryId { get; set; }
         public string Category { get; set; }
         public int OrderCount { get; set; }
-        public static Expression<Func<global::Product, Response>> Selector() => e => new Response
+        public static Expression<Func<Domain.Entities.Product, Response>> Selector() => e => new Response
         {
             Id = e.Id,
             Number = e.Number,

@@ -6,10 +6,10 @@ namespace Trendo.Application.Product.Command.Add;
 
 public class AddProductHandler : IRequestHandler<AddOrUpdateProductCommand.Request, AddOrUpdateProductCommand.Response>
 {
-    private readonly IRepository<Product> _repository;
+    private readonly IRepository<Domain.Entities.Product> _repository;
     private readonly IFileService _fileService;
 
-    public AddProductHandler(IRepository<Product> repository, IFileService fileService)
+    public AddProductHandler(IRepository<Domain.Entities.Product> repository, IFileService fileService)
     {
         _repository = repository;
         _fileService = fileService;
@@ -19,7 +19,7 @@ public class AddProductHandler : IRequestHandler<AddOrUpdateProductCommand.Reque
         CancellationToken cancellationToken)
     {
 
-        var imagePath = await _fileService.UploadFileAsync(request.Image, "upload");
+        var imagePath = await _fileService.Upload(request.Image, "upload");
         var product = new Domain.Entities.Product
         {
             Name = request.Name,

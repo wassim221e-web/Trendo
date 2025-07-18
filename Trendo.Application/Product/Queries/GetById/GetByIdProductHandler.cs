@@ -6,9 +6,9 @@ namespace Trendo.Application.Product.Queries.GetById;
 
     public class GetByIdProductHandler : IRequestHandler<GetByIdProductQuery.Request, GetByIdProductQuery.Response>
     {
-        private readonly IRepository<global::Product> _repository;
+        private readonly IRepository<Domain.Entities.Product> _repository;
 
-        public GetByIdProductHandler(IRepository<global::Product> repository)
+        public GetByIdProductHandler(IRepository<Domain.Entities.Product> repository)
         {
             _repository = repository;
         }

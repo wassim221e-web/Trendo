@@ -1,18 +1,20 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Trendo.Domain.Repository;
 
 namespace Trendo.Application.Product.Command.Update;
 
 public class UpdateProductHandler : IRequestHandler<UpdateProductCommand.Request, UpdateProductCommand.Response>
 {
-    private readonly IRepository<Product> _repository;
+    private readonly IRepository<Domain.Entities.Product> _repository;
 
-    public UpdateProductHandler(IRepository<Product> repository)
+    public UpdateProductHandler(IRepository<Domain.Entities.Product> repository)
     {
         _repository = repository;
     }
 
-    public async Task<UpdateProductCommand.Response> Handle(UpdateProductCommand.Request request, CancellationToken cancellationToken)
+    public async Task<UpdateProductCommand.Response> Handle(UpdateProductCommand.Request request,
+        CancellationToken cancellationToken)
     {
         var product = await _repository.Query()
             .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
@@ -40,3 +42,4 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand.Request
             Message = "تم تحديث المنتج بنجاح"
         };
     }
+}
