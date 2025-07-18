@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Trendo.Domain.Entities;
 using Trendo.Domain.Entities.Security;
 
 namespace Trendo.Infrastructure.DbContext;
@@ -32,4 +33,23 @@ public class TrendoDbContext:IdentityDbContext<User,Role,Guid,IdentityUserClaim<
 
 public DbSet<Customer> Customers { get; set; }
 public DbSet<Employee> Employees { get; set; }
+public DbSet<Product> Products { get; set; }
+public DbSet<Category> Categories { get; set; }
+public DbSet<Order> Orders { get; set; }
+
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    base.OnModelCreating(modelBuilder);
+
+    modelBuilder.Entity<Product>()
+        .HasOne(p => p.Category)
+        .WithMany(c => c.Products)
+        .HasForeignKey(p => p.CategoryId);
+
+    modelBuilder.Entity<Product>()
+        .HasMany(p => p.Orders)
+        .WithOne(o => o.Product)
+        .HasForeignKey(o => o.ProductId);
+}
+
 } 
