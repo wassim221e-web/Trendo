@@ -20,4 +20,18 @@ public class AuthController : ControllerBase
         var result = await _mediator.Send(request);
         return Ok(result);
     }
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh([FromQuery] LoginCommand.Request request)
+    {
+        try
+        {
+            var result = await _mediator.Send(request);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            
+            return Unauthorized(new { message = ex.Message });
+        }
+    }
 }

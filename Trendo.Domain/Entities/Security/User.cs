@@ -12,4 +12,7 @@ public class User:IdentityUser<Guid>,IAuditable
     public string LastName { get; set; }
     public int Number { get; set; }  
     public string? ImagePath { get; set; }
+    public string? RefreshToken { get; set; }
+    public DateTime RefreshTokenExpiryTime { get; set; }
+
 }
