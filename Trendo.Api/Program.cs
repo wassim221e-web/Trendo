@@ -17,29 +17,6 @@ builder.Services.AddSwaggerGen();
 // ✅ MVC / Controllers
 builder.Services.AddControllers();
 
-// ✅ المصادقة والتصريح (لو ما أضفتها داخل Infrastructure)
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(options =>
-    {
-        var jwtSettings = builder.Configuration.GetSection("JWT");
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtSettings["Issuer"],
-            ValidAudience = jwtSettings["Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Secret"]))
-        };
-    });
-
-builder.Services.AddAuthorization();
-
 var app = builder.Build();
 
 // ✅ Middleware

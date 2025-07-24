@@ -5,66 +5,47 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Trendo.Application.File.Interface;
 using Trendo.Domain.Entities.Security;
-using Trendo.Domain.Repository;
-using Trendo.Infrastructure.DbContext;
-using Trendo.Infrastructure.Repository;
+using Trendo.Infrastructure.DbContext;  // استدعاء TrendoDbContext
 
-namespace Trendo.Infrastructure;
-
-public static class DependencyInjection
+namespace Trendo.Infrastructure
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static class DependencyInjection
     {
-        // ✅ ملف الخدمات العامة
-        services.AddScoped<IFileService, FileService>();
-        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
-        // ✅ قاعدة البيانات
-        services.AddDbContext<TrendoDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
-
-        // ✅ إعدادات الهوية Identity
-        services.AddIdentity<User, Role>(options =>
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            options.Password.RequireDigit = true;
-            options.Password.RequiredLength = 8;
-            options.Password.RequireNonAlphanumeric = false;
-            options.User.RequireUniqueEmail = true;
-        })
-        .AddEntityFrameworkStores<TrendoDbContext>()
-        .AddUserManager<UserManager<User>>()
-        .AddRoleManager<RoleManager<Role>>()
-        .AddSignInManager<SignInManager<User>>()
-        .AddDefaultTokenProviders();
+            // تسجيل DbContext الخاص بك (TrendoDbContext)
+            services.AddDbContext<TrendoDbContext>(options =>
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
-        // ✅ المصادقة باستخدام JWT
-        var jwtSettings = configuration.GetSection("JWT");
-        var secretKey = Encoding.UTF8.GetBytes(jwtSettings["Secret"]);
+            // إعداد Identity مع استخدام كلاس User وكلاس Role الخاصين بك
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<TrendoDbContext>()
+                .AddDefaultTokenProviders();
 
-        services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
+            // إعداد JWT Authentication
+            var key = Encoding.UTF8.GetBytes(configuration["JWT:Secret"]!);
+
+            services.AddAuthentication(options =>
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = jwtSettings["Issuer"],
-                ValidAudience = jwtSettings["Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(secretKey)
-            };
-        });
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configuration["JWT:Issuer"],
+                    ValidAudience = configuration["JWT:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+            });
 
-        // ✅ التصريح (authorization)
-        services.AddAuthorization();
-
-        return services;
+            return services;
+        }
     }
 }
