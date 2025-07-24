@@ -12,7 +12,11 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 // ✅ Swagger
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    // استخدم الاسم الكامل (بما في ذلك namespace) لتفادي تكرار الاسم
+    c.CustomSchemaIds(type => type.FullName);
+});
 
 // ✅ MVC / Controllers
 builder.Services.AddControllers();
